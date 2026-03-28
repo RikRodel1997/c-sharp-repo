@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Ccps109/Ccps109.csproj" />
+  <Project Path="Ccps109.Tests/Ccps109.Tests.csproj" />
+</Solution>
