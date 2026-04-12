@@ -65,4 +65,20 @@ public class Ccps109Tests
         bool actual = CyclopsNumbers.IsCyclops(n);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData(new int[] { 3, 5, 5, 2, 2, 3 }, true)]
+    [InlineData(new int[] { 4, 4 }, true)]
+    [InlineData(new int[] { }, true)]
+    [InlineData(new int[] { 2, 6 }, false)]
+    [InlineData(new int[] { 5, 2, 2, 3, 4, 5 }, false)]
+    [InlineData(new int[] { 4, 3, 3, 1 }, false)]
+    public void DominoCycleTest(int[] flat, bool expected)
+    {
+        // because we can't pass tuples into InlineDate
+        (int, int)[] tiles = [.. Enumerable.Range(0, flat.Length / 2).Select(i => (flat[i * 2], flat[i * 2 + 1]))];
+
+        bool actual = DominoCycle.IsDominoCycle(tiles);
+        Assert.Equal(expected, actual);
+    }
 }
