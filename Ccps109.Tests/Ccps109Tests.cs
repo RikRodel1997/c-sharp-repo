@@ -13,7 +13,7 @@ public class Ccps109Tests
     public void RyersonLetterGradeTest(int input, string expected)
     {
         string actual = RyersonLetterGrade.GetGrade(input);
-        Assert.Equal(actual, expected);
+        Assert.Equal(expected, actual);
     }
 
     [Theory]
@@ -26,6 +26,18 @@ public class Ccps109Tests
     public void AscendingListTest(int[] input, bool expected)
     {
         bool actual = AscendingList.IsAscending(input);
-        Assert.Equal(actual, expected);
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, true, new int[] { 1, 5, 2, 6, 3, 7, 4, 8 })]
+    [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, false, new int[] { 5, 1, 6, 2, 7, 3, 8, 4 })]
+    [InlineData(new int[] { }, true, new int[] { })]
+    [InlineData(new string[] { "bob", "jack" }, true, new string[] { "bob", "jack" })]
+    [InlineData(new string[] { "bob", "jack" }, false, new string[] { "jack", "bob" })]
+    public void RiffleShuffleKerfuffleTest<T>(T[] input, bool outShuffle, T[] expected)
+    {
+        T[] actual = RiffleShuffleKerfuffle.Riffle(input, outShuffle);
+        Assert.Equal(expected, actual);
     }
 }
