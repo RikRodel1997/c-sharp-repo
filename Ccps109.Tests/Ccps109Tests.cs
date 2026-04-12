@@ -40,4 +40,16 @@ public class Ccps109Tests
         T[] actual = RiffleShuffleKerfuffle.Riffle(input, outShuffle);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData(8, false)]
+    [InlineData(1357975313579, true)]
+    [InlineData(42, false)]
+    [InlineData(71358, false)]
+    [InlineData(0, false)]
+    public void EvenTheOddsTest<T>(long n, bool expected)
+    {
+        bool actual = EvenTheOdds.OnlyOddDigits(n);
+        Assert.Equal(expected, actual);
+    }
 }
