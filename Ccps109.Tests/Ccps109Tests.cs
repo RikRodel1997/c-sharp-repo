@@ -81,4 +81,17 @@ public class Ccps109Tests
         bool actual = DominoCycle.IsDominoCycle(tiles);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData("y", "y")]
+    [InlineData("bb", "b")]
+    [InlineData("rybyry", "r")]
+    [InlineData("brybbr", "r")]
+    [InlineData("rbyryrrbyrbb", "y")]
+    [InlineData("yrbbbbryyrybb", "b")]
+    public void ColourTrioTest(string colours, string expected)
+    {
+        string actual = ColourTrio.IsColourTrio(colours);
+        Assert.Equal(expected, actual);
+    }
 }
