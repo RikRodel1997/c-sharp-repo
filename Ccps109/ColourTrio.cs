@@ -7,9 +7,7 @@ public class ColourTrio
     public static string IsColourTrio(string colours)
     {
         if (colours.Length == 1)
-        {
             return colours;
-        }
 
         string result = colours;
 

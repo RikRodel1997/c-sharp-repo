@@ -9,9 +9,7 @@ public class AscendingList
         foreach (var (prev, curr) in numbers.Zip(numbers.Skip(1)))
         {
             if (prev < curr)
-            {
                 continue;
-            }
             else
             {
                 isAscending = false;
