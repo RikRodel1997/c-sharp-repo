@@ -52,4 +52,17 @@ public class Ccps109Tests
         bool actual = EvenTheOdds.OnlyOddDigits(n);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData(0, true)]
+    [InlineData(101, true)]
+    [InlineData(98053, true)]
+    [InlineData(777888999, false)]
+    [InlineData(1056, false)]
+    [InlineData(675409820, false)]
+    public void CyclopsNumbersTest<T>(int n, bool expected)
+    {
+        bool actual = CyclopsNumbers.IsCyclops(n);
+        Assert.Equal(expected, actual);
+    }
 }
