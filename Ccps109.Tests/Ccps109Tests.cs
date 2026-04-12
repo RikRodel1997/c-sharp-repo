@@ -94,4 +94,19 @@ public class Ccps109Tests
         string actual = ColourTrio.IsColourTrio(colours);
         Assert.Equal(expected, actual);
     }
+
+    [Theory]
+    [InlineData(new int[] { 42, 7, 12, 9, 2, 5 }, 4)]
+    [InlineData(new int[] { }, 0)]
+    // in the pdf the expected result is 2, but 5 is bigger than everything on the right, so is -1 and so is -3 as its the last in the list.
+    [InlineData(new int[] { -2, 5, -1, -3 }, 3)]
+    [InlineData(new int[] { -10, -20, -30, -42 }, 4)]
+    [InlineData(new int[] { 42, 42, 42, 42 }, 1)]
+    [InlineData(new int[] { 0, 1, 2, 3, 4 }, 1)]
+    [InlineData(new int[] { 5, 4, 3, 2, 1 }, 5)]
+    public void CountDominatorsTest(int[] items, int expected)
+    {
+        int actual = CountDominators.CountDominatorItems(items);
+        Assert.Equal(expected, actual);
+    }
 }

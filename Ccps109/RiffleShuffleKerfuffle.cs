@@ -5,9 +5,7 @@ public class RiffleShuffleKerfuffle
     public static T[] Riffle<T>(T[] items, bool outShuffle)
     {
         if (items.Length == 0)
-        {
             return [];
-        }
 
         T[] result = new T[items.Length];
         T[] firstHalf = items[..(items.Length / 2)];
