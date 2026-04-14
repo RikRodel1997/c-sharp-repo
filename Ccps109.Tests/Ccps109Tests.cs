@@ -47,7 +47,7 @@ public class Ccps109Tests
     [InlineData(42, false)]
     [InlineData(71358, false)]
     [InlineData(0, false)]
-    public void EvenTheOddsTest<T>(long n, bool expected)
+    public void EvenTheOddsTest(long n, bool expected)
     {
         bool actual = EvenTheOdds.OnlyOddDigits(n);
         Assert.Equal(expected, actual);
@@ -60,7 +60,7 @@ public class Ccps109Tests
     [InlineData(777888999, false)]
     [InlineData(1056, false)]
     [InlineData(675409820, false)]
-    public void CyclopsNumbersTest<T>(int n, bool expected)
+    public void CyclopsNumbersTest(int n, bool expected)
     {
         bool actual = CyclopsNumbers.IsCyclops(n);
         Assert.Equal(expected, actual);
@@ -107,6 +107,45 @@ public class Ccps109Tests
     public void CountDominatorsTest(int[] items, int expected)
     {
         int actual = CountDominators.CountDominatorItems(items);
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData("600005", new long[] { 6 })]
+    [InlineData("045349", new long[] { 0, 4, 5, 34 })]
+    [InlineData("77777777777777777777777", new long[] { 7, 77, 777, 7777, 77777, 777777 })]
+    [InlineData("122333444455555666666", new long[] { 1, 2, 23, 33, 44, 445, 555, 566, 666 })]
+    [InlineData(
+        "2718281828459045235360287471352662497757247093699959574966967627724076630353547594571382178525166427427466391932003059921817413596629043572900334295260",
+        new long[]
+        {
+            2,
+            7,
+            18,
+            28,
+            182,
+            845,
+            904,
+            5235,
+            36028,
+            74713,
+            526624,
+            977572,
+            4709369,
+            9959574,
+            96696762,
+            772407663,
+            3535475945,
+            7138217852,
+            51664274274,
+            66391932003,
+            599218174135,
+            966290435729,
+        }
+    )]
+    public void BeatThePreviousTest(string digits, long[] expected)
+    {
+        long[] actual = BeatThePrevious.ExtractIncreasing(digits);
         Assert.Equal(expected, actual);
     }
 }
