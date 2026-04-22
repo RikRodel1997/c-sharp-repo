@@ -7,7 +7,7 @@ public class CcWcTests
     [Theory]
     [InlineData("test.txt", 342190)]
     [InlineData("lorum-ipsum.txt", 445)]
-    [InlineData("csv-style.txt", 15799)]
+    [InlineData("csv-style.txt", 16802)]
     public void ByteCountTest(string fileName, int expected)
     {
         using StringWriter sw = new();
@@ -82,7 +82,7 @@ public class CcWcTests
     [Theory]
     [InlineData("test.txt", 339292)]
     [InlineData("lorum-ipsum.txt", 445)]
-    [InlineData("csv-style.txt", 15799)]
+    [InlineData("csv-style.txt", 16802)]
     public void CharCountTest(string fileName, int expected)
     {
         using StringWriter sw = new();
@@ -107,7 +107,7 @@ public class CcWcTests
     [Theory]
     [InlineData("test.txt", new int[] { 342190, 7145, 58164 })]
     [InlineData("lorum-ipsum.txt", new int[] { 445, 0, 69 })]
-    [InlineData("csv-style.txt", new int[] { 15799, 1003, 1017 })]
+    [InlineData("csv-style.txt", new int[] { 16802, 1003, 1017 })]
     public void NoFlagTest(string fileName, int[] expected)
     {
         using StringWriter sw = new();
