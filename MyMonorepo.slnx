@@ -3,9 +3,12 @@
     <Project Path="CcCalculator/CcCalculator.csproj" />
     <Project Path="CcCalculator.Tests/CcCalculator.Tests.csproj" />
   </Folder>
-
   <Folder Name="/CcWc/">
     <Project Path="CcWc/CcWc.csproj" />
     <Project Path="CcWc.Tests/CcWc.Tests.csproj" />
+  </Folder>
+  <Folder Name="/CcWebServer/">
+    <Project Path="CcWebServer/CcWebServer.csproj" />
+    <Project Path="CcWebServer.Tests/CcWebServer.Tests.csproj" />
   </Folder>
 </Solution>

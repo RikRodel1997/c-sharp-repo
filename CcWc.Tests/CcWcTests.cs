@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace CcWc.Tests;
+﻿namespace CcWc.Tests;
 
 public class CcWcTests
 {
