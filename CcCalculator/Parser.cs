@@ -2,14 +2,17 @@ namespace CcCalculator;
 
 public class Parser(Token[] tokens)
 {
-    private static readonly Dictionary<char, int> Precedence = new()
+    private static readonly Dictionary<string, int> Precedence = new()
     {
-        { '(', 0 },
-        { ')', 0 },
-        { '-', 1 },
-        { '+', 1 },
-        { '*', 2 },
-        { '/', 2 },
+        { "(", 0 },
+        { ")", 0 },
+        { "-", 1 },
+        { "+", 1 },
+        { "*", 2 },
+        { "/", 2 },
+        { "sin", 3 },
+        { "cos", 3 },
+        { "tan", 3 },
     };
 
     private Token[] Tokens { get; set; } = tokens;
@@ -20,7 +23,7 @@ public class Parser(Token[] tokens)
 
     public Token[] Parse()
     {
-        foreach (var token in Tokens)
+        foreach (Token token in Tokens)
         {
             TokenType type = token.Type;
 
@@ -43,6 +46,20 @@ public class Parser(Token[] tokens)
                         OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
                     }
                     break;
+                case TokenType.Function:
+                    if (OperatorQueue.Count == 0)
+                    {
+                        OperatorQueue.Add(token);
+                        break;
+                    }
+
+                    while (OperatorQueue.Count > 0 && LastPrecedence() >= CurrentPrecedence(token))
+                    {
+                        OutputQueue.Add(OperatorQueue.Last());
+                        OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
+                    }
+                    OperatorQueue.Add(token);
+                    break;
                 default:
                     if (OperatorQueue.Count == 0)
                     {
@@ -50,10 +67,7 @@ public class Parser(Token[] tokens)
                         break;
                     }
 
-                    int currentPrecedence = Precedence[token.Literal];
-                    int lastPrecedence = Precedence[OperatorQueue.Last().Literal];
-
-                    while (OperatorQueue.Count > 0 && lastPrecedence >= currentPrecedence)
+                    while (OperatorQueue.Count > 0 && LastPrecedence() >= CurrentPrecedence(token))
                     {
                         OutputQueue.Add(OperatorQueue.Last());
                         OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
@@ -63,11 +77,22 @@ public class Parser(Token[] tokens)
             }
         }
 
-        foreach (Token op in OperatorQueue)
+        while (OperatorQueue.Count > 0)
         {
-            OutputQueue.Add(op);
+            OutputQueue.Add(OperatorQueue.Last());
+            OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
         }
 
         return [.. OutputQueue];
+    }
+
+    private static int CurrentPrecedence(Token token)
+    {
+        return Precedence[token.Literal];
+    }
+
+    private int LastPrecedence()
+    {
+        return Precedence[OperatorQueue.Last().Literal];
     }
 }

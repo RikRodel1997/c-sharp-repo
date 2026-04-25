@@ -6,11 +6,12 @@ public enum TokenType
     Number,
     LParen,
     RParen,
+    Function,
 }
 
-public class Token(TokenType type, char literal)
+public class Token(TokenType type, string literal)
 {
     public TokenType Type { get; } = type;
 
-    public char Literal { get; } = literal;
+    public string Literal { get; } = literal;
 }
