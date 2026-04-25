@@ -8,30 +8,42 @@ public class Program
         Run(input);
     }
 
-    public static double Run(string input)
+    public static int Run(string input)
     {
-        Token[] tokens = Lexer.Lex(input);
-        Expression expression = new Parser(tokens).Parse();
+        Token[] tokens = new Lexer(input).Lex();
+        Token[] prnTokens = new Parser(tokens).Parse();
 
-        return Evaluate(expression);
+        int evaluated = Evaluate(prnTokens);
+        return evaluated;
     }
 
-    private static double Evaluate(Expression expression)
+    private static int Evaluate(Token[] prnTokens)
     {
-        if (expression is BinaryExpression binary)
+        Stack<int> stack = [];
+        foreach (Token token in prnTokens)
         {
-            NumberExpression left = (NumberExpression)binary.Left;
-            NumberExpression right = (NumberExpression)binary.Right;
-
-            return binary.Op switch
+            if (token.Type == TokenType.Number)
             {
-                '*' => left.Value * right.Value,
-                '-' => left.Value - right.Value,
-                '+' => left.Value + right.Value,
-                '/' => left.Value / right.Value,
-                _ => throw new Exception($"Invalid operator {binary.Op}"),
-            };
+                stack.Push(token.Literal - '0');
+            }
+
+            if (token.Type == TokenType.Operator)
+            {
+                int first = stack.Pop();
+                int second = stack.Pop();
+
+                int result = token.Literal switch
+                {
+                    '*' => second * first,
+                    '-' => second - first,
+                    '+' => second + first,
+                    '/' => second / first,
+                    _ => throw new Exception($"Unknown operator: {token.Literal}"),
+                };
+
+                stack.Push(result);
+            }
         }
-        throw new Exception($"Invalid expression to evaluate {expression}");
+        return stack.Pop();
     }
 }

@@ -1,10 +1,10 @@
 <Solution>
-  <Folder Name="CcCalculator">
+  <Folder Name="/CcCalculator/">
     <Project Path="CcCalculator/CcCalculator.csproj" />
     <Project Path="CcCalculator.Tests/CcCalculator.Tests.csproj" />
   </Folder>
 
-  <Folder Name="CcWc">
+  <Folder Name="/CcWc/">
     <Project Path="CcWc/CcWc.csproj" />
     <Project Path="CcWc.Tests/CcWc.Tests.csproj" />
   </Folder>

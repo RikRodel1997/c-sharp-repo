@@ -2,11 +2,10 @@ namespace CcCalculator;
 
 public enum TokenType
 {
+    Operator,
     Number,
-    Star,
-    Minus,
-    Plus,
-    Divide,
+    LParen,
+    RParen,
 }
 
 public class Token(TokenType type, char literal)

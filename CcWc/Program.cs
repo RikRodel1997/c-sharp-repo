@@ -101,10 +101,4 @@ public class Program
     {
         return Encoding.UTF8.GetString(bytes).ToCharArray().Length;
     }
-
-    private static byte[] ReadFile(string filePath)
-    {
-        byte[] bytes = File.ReadAllBytes(filePath);
-        return bytes;
-    }
 }

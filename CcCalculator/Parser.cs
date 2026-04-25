@@ -2,53 +2,72 @@ namespace CcCalculator;
 
 public class Parser(Token[] tokens)
 {
+    private static readonly Dictionary<char, int> Precedence = new()
+    {
+        { '(', 0 },
+        { ')', 0 },
+        { '-', 1 },
+        { '+', 1 },
+        { '*', 2 },
+        { '/', 2 },
+    };
+
     private Token[] Tokens { get; set; } = tokens;
 
-    private int Position { get; set; } = 0;
+    private readonly List<Token> OperatorQueue = [];
 
-    private Token? CurrentToken { get; set; } = null;
+    private readonly List<Token> OutputQueue = [];
 
-    public Expression Parse()
+    public Token[] Parse()
     {
-        NextToken();
-        Expression left = ParseExpression();
-
-        NextToken();
-        if (CurrentToken == null)
+        foreach (var token in Tokens)
         {
-            throw new Exception("Unexpected end of input");
+            TokenType type = token.Type;
+
+            switch (type)
+            {
+                case TokenType.Number:
+                    OutputQueue.Add(token);
+                    break;
+                case TokenType.LParen:
+                    OperatorQueue.Add(token);
+                    break;
+                case TokenType.RParen:
+                    while (OperatorQueue.Count > 0 && OperatorQueue.Last().Type != TokenType.LParen)
+                    {
+                        OutputQueue.Add(OperatorQueue.Last());
+                        OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
+                    }
+                    if (OperatorQueue.Count > 0)
+                    {
+                        OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
+                    }
+                    break;
+                default:
+                    if (OperatorQueue.Count == 0)
+                    {
+                        OperatorQueue.Add(token);
+                        break;
+                    }
+
+                    int currentPrecedence = Precedence[token.Literal];
+                    int lastPrecedence = Precedence[OperatorQueue.Last().Literal];
+
+                    while (OperatorQueue.Count > 0 && lastPrecedence >= currentPrecedence)
+                    {
+                        OutputQueue.Add(OperatorQueue.Last());
+                        OperatorQueue.RemoveAt(OperatorQueue.Count - 1);
+                    }
+                    OperatorQueue.Add(token);
+                    break;
+            }
         }
-        char operation = CurrentToken.Literal;
 
-        NextToken();
-        Expression right = ParseExpression();
-
-        return new BinaryExpression(left, right, operation);
-    }
-
-    private Expression ParseExpression()
-    {
-        if (CurrentToken == null)
+        foreach (Token op in OperatorQueue)
         {
-            throw new Exception("Unexpected end of input");
+            OutputQueue.Add(op);
         }
-        return CurrentToken.Type switch
-        {
-            TokenType.Number => new NumberExpression(char.GetNumericValue(CurrentToken.Literal)),
-            _ => throw new Exception($"Unexpected token {CurrentToken}"),
-        };
-    }
 
-    private void NextToken()
-    {
-        if (Position == Tokens.Length)
-        {
-            CurrentToken = null;
-        }
-        else
-        {
-            CurrentToken = Tokens[Position];
-            Position++;
-        }
+        return [.. OutputQueue];
     }
 }

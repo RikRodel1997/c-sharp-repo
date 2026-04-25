@@ -1,11 +1,13 @@
 namespace CcCalculator;
 
-public class Lexer
+public class Lexer(string input)
 {
-    public static Token[] Lex(string expression)
+    private readonly string Input = input;
+
+    public Token[] Lex()
     {
         List<Token> tokens = [];
-        foreach (char c in expression)
+        foreach (char c in Input)
         {
             if (char.IsWhiteSpace(c))
             {
@@ -19,10 +21,12 @@ public class Lexer
 
             Token token = c switch
             {
-                '*' => new Token(TokenType.Star, c),
-                '-' => new Token(TokenType.Minus, c),
-                '+' => new Token(TokenType.Plus, c),
-                '/' => new Token(TokenType.Divide, c),
+                '*' => new Token(TokenType.Operator, c),
+                '-' => new Token(TokenType.Operator, c),
+                '+' => new Token(TokenType.Operator, c),
+                '/' => new Token(TokenType.Operator, c),
+                '(' => new Token(TokenType.LParen, c),
+                ')' => new Token(TokenType.RParen, c),
                 _ => throw new Exception($"Invalid character: {c}"),
             };
             tokens.Add(token);
