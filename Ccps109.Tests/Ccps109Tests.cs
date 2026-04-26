@@ -1,6 +1,3 @@
-using Ccps109;
-using Xunit;
-
 namespace Ccps109.Tests;
 
 public class Ccps109Tests
@@ -75,7 +72,7 @@ public class Ccps109Tests
     [InlineData(new int[] { 4, 3, 3, 1 }, false)]
     public void DominoCycleTest(int[] flat, bool expected)
     {
-        // because we can't pass tuples into InlineDate
+        // because we can"t pass tuples into InlineDate
         (int, int)[] tiles = [.. Enumerable.Range(0, flat.Length / 2).Select(i => (flat[i * 2], flat[i * 2 + 1]))];
 
         bool actual = DominoCycle.IsDominoCycle(tiles);
@@ -146,6 +143,57 @@ public class Ccps109Tests
     public void BeatThePreviousTest(string digits, long[] expected)
     {
         long[] actual = BeatThePrevious.ExtractIncreasing(digits);
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(
+        "klore",
+        new string[]
+        {
+            "booklore",
+            "booklores",
+            "folklore",
+            "folklores",
+            "kaliborite",
+            "kenlore",
+            "kiloampere",
+            "kilocalorie",
+            "kilocurie",
+            "kilogramme",
+            "kilogrammetre",
+            "kilolitre",
+            "kilometrage",
+            "kilometre",
+            "kilooersted",
+            "kiloparsec",
+            "kilostere",
+            "kiloware",
+        }
+    )]
+    [InlineData(
+        "brohiic",
+        new string[] { "bronchiectatic", "bronchiogenic", "bronchitic", "ombrophilic", "timbrophilic" }
+    )]
+    [InlineData(
+        "azaz",
+        new string[] { "azazel", "azotetrazole", "azoxazole", "diazoaminobenzene", "hazardize", "razzmatazz" }
+    )]
+    public void SubsequentWordsTest(string letters, string[] expected)
+    {
+        string[] words = [];
+        try
+        {
+            using StreamReader reader = new("words_sorted.txt");
+            words = reader.ReadToEnd().Split("\n");
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("The file could not be read:");
+            Console.WriteLine(e.Message);
+        }
+
+        string[] actual = SubsequentWords.WordsWithLetters(words, letters);
         Assert.Equal(expected, actual);
     }
 }
