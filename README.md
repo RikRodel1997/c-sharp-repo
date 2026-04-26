@@ -7,5 +7,8 @@ To run tests in the whole workspace, simply run `dotnet test` or `dotnet test -v
 ### **CcWc**: 
 Implementation for the [CodingChallenges.fyi WC challenge](https://codingchallenges.fyi/challenges/challenge-wc).
 
-### **CcWc**: 
+### **CcCalculator**: 
 Implementation for the [CodingChallenges.fyi Calculator challenge](https://codingchallenges.fyi/challenges/challenge-calculator/).
+
+### **CcWebServer**: 
+Implementation for the [CodingChallenges.fyi Web Server challenge](https://codingchallenges.fyi/challenges/challenge-webserver/).

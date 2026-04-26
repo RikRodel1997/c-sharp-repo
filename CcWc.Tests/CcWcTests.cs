@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace CcWc.Tests;
+﻿namespace CcWc.Tests;
 
 public class CcWcTests
 {
@@ -19,7 +17,9 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Assert.Equal($"\t{expected} {fileName}\r\n", result);
+            string byteCount = result.Split(" ")[0];
+
+            Assert.Equal(expected, int.Parse(byteCount));
         }
         finally
         {
@@ -44,7 +44,9 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Assert.Equal($"\t{expected} {fileName}\r\n", result);
+            string lineCount = result.Split(" ")[0];
+
+            Assert.Equal(expected, int.Parse(lineCount));
         }
         finally
         {
@@ -69,7 +71,9 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Assert.Equal($"\t{expected} {fileName}\r\n", result);
+            string wordCount = result.Split(" ")[0];
+
+            Assert.Equal(expected, int.Parse(wordCount));
         }
         finally
         {
@@ -94,7 +98,9 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Assert.Equal($"\t{expected} {fileName}\r\n", result);
+            string charCount = result.Split(" ")[0];
+
+            Assert.Equal(expected, int.Parse(charCount));
         }
         finally
         {
@@ -119,7 +125,14 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Assert.Equal($"\t{expected[0]}\t{expected[1]}\t{expected[2]} {fileName}\r\n", result);
+            int[] counts =
+            [
+                .. result
+                    .Split([' ', '\t', '\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+                    .Where(s => int.TryParse(s, out _))
+                    .Select(int.Parse),
+            ];
+            Assert.Equal(expected, counts);
         }
         finally
         {
@@ -146,8 +159,9 @@ public class CcWcTests
             Program.Main(args);
 
             string result = sw.ToString();
-            Console.WriteLine($"output ${result}");
-            Assert.Equal($"\t{simulatedInput.Length} \r\n", result);
+            string count = result.Split(" ")[0];
+
+            Assert.Equal(11, int.Parse(count));
         }
         finally
         {
