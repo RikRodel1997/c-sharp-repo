@@ -5,7 +5,7 @@ app.MapGet(
     "/",
     (IWebHostEnvironment env) =>
     {
-        string path = Path.Combine(env.ContentRootPath, "public", "index.html");
+        string path = Path.Combine(env.ContentRootPath, "www", "index.html");
         return Results.File(path, "text/html");
     }
 );
@@ -13,8 +13,17 @@ app.MapGet(
     "/index.html",
     (IWebHostEnvironment env) =>
     {
-        string path = Path.Combine(env.ContentRootPath, "public", "index.html");
+        string path = Path.Combine(env.ContentRootPath, "www", "index.html");
         return Results.File(path, "text/html");
+    }
+);
+
+app.MapGet(
+    "/slow",
+    async () =>
+    {
+        await Task.Delay(1000);
+        return "Finally done!";
     }
 );
 

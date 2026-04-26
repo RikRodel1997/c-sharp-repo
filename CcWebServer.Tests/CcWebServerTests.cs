@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
@@ -89,5 +90,21 @@ public class CcWebServerTests : IClassFixture<WebApplicationFactory<Program>>
         HttpResponseMessage response = await _client.GetAsync(url);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task Server_IsMultiThreaded_FastRequestFinishesWhileSlowRequestIsRunning()
+    {
+        Task<HttpResponseMessage> slowTask = _client.GetAsync("/slow");
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        HttpResponseMessage fastResponse = await _client.GetAsync("/");
+        stopwatch.Stop();
+
+        Assert.Equal(HttpStatusCode.OK, fastResponse.StatusCode);
+        Assert.True(stopwatch.ElapsedMilliseconds < 200, "Fast request was blocked by slow request!");
+
+        HttpResponseMessage slowResponse = await slowTask;
+        Assert.Equal(HttpStatusCode.OK, slowResponse.StatusCode);
     }
 }
